@@ -9,7 +9,7 @@ import { SharedModule } from '../shared/shared.module';
 })
 export class CompileComponent implements OnChanges {
     @Input() html: string;
-    @Input() script: string;
+    @Input() scripts: string[];
     @Input() context: any;
     @Input() errorHandler: (ex: any) => void = console.error;
     @Input() decorator: NgModule;
@@ -29,7 +29,7 @@ export class CompileComponent implements OnChanges {
                 this.dynamicModule = undefined;
             } else {
                 try {
-                    this.dynamicComponent = this.createNewComponent(this.html, this.script, this.context);
+                    this.dynamicComponent = this.createNewComponent(this.html, this.scripts, this.context);
                     this.dynamicModule = this.compiler.compileModuleSync(this.createComponentModule(this.dynamicComponent));
                 } catch (e) {
                     this.errorHandler(e);
@@ -38,7 +38,7 @@ export class CompileComponent implements OnChanges {
         }
     }
 
-    private createNewComponent(html: string, script: string, context: any) {
+    private createNewComponent(html: string, scripts: string[], context: any) {
         @Component({
             selector: 'app-dynamic-component',
             template: `
@@ -51,11 +51,18 @@ export class CompileComponent implements OnChanges {
             context = context;
             html = html || '<div></div>';
 
-            ngAfterViewInit() {
-                const el = document.createElement('script');
-                el.type = 'text/javascript';
-                el.innerHTML = script || '<!-- no script -->';
-                this.element.nativeElement.appendChild(el);
+            async ngAfterViewInit() {
+                for (const script of scripts) {
+                    const el = document.createElement('script');
+                    el.type = 'text/javascript';
+                    const match = /src="(.+)"/ig.exec(script);
+                    if (!match) {
+                        el.innerHTML = script;
+                    } else {
+                        el.src = match[1];
+                    }
+                    this.element.nativeElement.appendChild(el);
+                }
             }
         }
         return DynamicComponent;

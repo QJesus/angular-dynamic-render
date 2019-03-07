@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class RenderComponent implements OnInit {
     context: any;
     html: string;
-    script: string;
+    scripts: string[];
     decorator: NgModule = {
         declarations: [],
         imports: [],
@@ -33,9 +33,16 @@ export class RenderComponent implements OnInit {
             }
             const url = `${htmlUrl.startsWith('~') ? `/assets/${htmlUrl.substring(1)}` : htmlUrl}?t=${new Date().valueOf()}`;
             const html = await this.http.get(url, { responseType: 'text', }).toPromise();
-            const groups = /<script>([\s\S]+)<\/script>/ig.exec(html);
-            this.html = html.replace(groups[0], '');
-            this.script = groups[1];
+            const re = /<script(\b[^>]*)>([\s\S]*?)<\/script>/gm;
+
+            const scripts: string[] = [];
+            let match: RegExpExecArray;
+            // tslint:disable-next-line:no-conditional-assignment
+            while (match = re.exec(html)) {
+                scripts.push(!match[1] ? match[2] : match[1]);
+            }
+            this.html = html;
+            this.scripts = scripts;
         });
     }
 
