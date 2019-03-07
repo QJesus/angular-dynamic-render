@@ -3,16 +3,33 @@
 
 <head>
   <meta charset="utf-8">
-  <title>AngularDynamicRender</title>
+  <title>智能药柜系统V3</title>
   <base href="/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <script src="https://cdn.bootcss.com/vue/2.6.6/vue.min.js"></script>
+
+  <link rel="stylesheet" href="assets/constant/primeng/resources/primeng.min.css">
+  <link rel="stylesheet" href="assets/constant/primeng/resources/themes/luna-pink/theme.css">
+  <link rel="stylesheet" href="assets/constant/highcharts/css/highcharts.css">
+  <link rel="stylesheet" href="assets/constant/highcharts/css/themes/grid-light.css">
+  <link rel="stylesheet" href="assets/constant/TableExport/css/tableexport.min.css">
+  <link rel="stylesheet" href="assets/constant/vue-material/vue-material.min.css">
+
+  <script src="assets/constant/jquery/jquery.min.js"></script>
+  <script src="assets/constant/moment/moment.min.js"></script>
+  <script src="assets/constant/highcharts/highcharts.js"></script>
+  <script src="assets/constant/highcharts/highcharts-more.js"></script>
+  <script src="assets/constant/TableExport/js/tableexport.min.js"></script>
+  <script src="assets/constant/vue/vue.min.js"></script>
+  <script src="assets/constant/vue-material/vue-material.min.js"></script>
+
+  <script>
+    Vue.use(VueMaterial.default);
+  </script>
 </head>
 
 <body>
-
   <app-root style="height: 100%;">
     <div class="loader">
       <p style="margin-top: 30px;">Loading...</p>
@@ -21,7 +38,6 @@
       </svg>
     </div>
   </app-root>
-
 </body>
 
 </html>
