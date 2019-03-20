@@ -4,17 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { CompileModule } from './compile/compile.module';
-import { RenderComponent } from './render/render.component';
+import { RenderComponent, CompileComponent } from './render/render.component';
 
 @NgModule({
     declarations: [
         AppComponent,
-        RenderComponent,
+        RenderComponent, CompileComponent,
     ],
     imports: [
         BrowserModule,
-        CompileModule,
         HttpClientModule,
 
         AppRoutingModule,
